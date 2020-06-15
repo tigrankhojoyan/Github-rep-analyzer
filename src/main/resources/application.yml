@@ -1,0 +1,15 @@
+server:
+  port: 8081
+logging:
+  level:
+    root: INFO
+    com.git.repo.analyzer: DEBUG
+
+git:
+  api:
+    baseUri: 'https://api.github.com'
+  repos:
+    search: '/search/repositories?q={query} in:name&page={page}&per_page=10'
+    contributors: '/repos/{owner}/{repo}/contributors'
+    commits: '/repos/{owner}/{repo}/commits?per_page=100'
+

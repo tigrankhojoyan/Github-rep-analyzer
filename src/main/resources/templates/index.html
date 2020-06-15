@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Github Analyzer home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Github repositories search</h2>
+    <div class="col-sm-12 col-lg-4 mr-auto ml-auto border p-4">
+        <form method="get" th:action="@{/search}" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="search" class="form-control" data-th-name="query" id="query" placeholder="Search...">
+            </div>
+            <button type="submit" id="btnSearch" class="btn btn-primary">Submit</button>
+            <a data-th-href="@{/bookmarks}" class="btn btn-success" role="button">Bookmarks</a>
+        </form>
+    </div>
+</div>
+<br/><br/><br/>
+<div class="container" data-th-if="${repos != null}">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="repo: ${repos.getRepositories()}">
+                <td data-th-text="${repo.name}"></td>
+                <td data-th-text="${repo.repoDescription}"></td>
+                <td>
+                    <form data-th-action="@{'/repodetails'}" method="post" data-th-object="${githubRepo}">
+                        <input type="hidden" data-th-value="${repo.name}" name="name"/>
+                        <input type="hidden" data-th-value="${repo.repoDescription}" name="repoDescription"/>
+                        <input type="hidden" data-th-value="${repo.url}" name="url"/>
+                        <input type="hidden" data-th-value="${repo.cloneUrl}" name="cloneUrl"/>
+                        <input type="hidden" data-th-value="${repo.owner.id}" name="owner.id"/>
+                        <input type="hidden" data-th-value="${repo.owner.name}" name="owner.name"/>
+                        <input type="hidden" data-th-value="${repo.owner.avatarUri}" name="owner.avatarUri"/>
+                        <button type="submit" class="btn btn-secondary">Details</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Search pagination">
+            <ul class="pagination">
+                <li class="page-item" data-th-classappend="${repos.currentPage eq 1} ? 'disabled'">
+                    <a class="page-link"
+                       data-th-href="@{/search(query=${query},page=${repos.currentPage - 1})}">Previous</a>
+                </li>
+                <li class="page-item disabled"
+                    data-th-if="${repos.currentPage > 1}">
+                    <a class="page-link">
+                        <span>...</span>
+                    </a>
+                </li>
+                <li class="page-item" data-th-each="i : ${#numbers.sequence(repos.currentPage + 9 > repos.totalPagesCount ? repos.totalPagesCount - 9 : repos.currentPage,
+                            repos.currentPage + 9 < repos.totalPagesCount ? repos.currentPage + 9 : repos.totalPagesCount, 1)}"
+                    data-th-classappend="${i eq repos.getCurrentPage()} ? 'active'">
+                    <a class="page-link" href="#" data-th-text="${i}"
+                       data-th-href="@{/search(query=${query},page=${i})}"></a>
+                </li>
+                <li class="page-item disabled"
+                    data-th-if="${repos.currentPage + 9 < repos.totalPagesCount}">
+                    <a class="page-link">
+                        <span>...</span>
+                    </a>
+                </li>
+                <li class="page-item"
+                    data-th-classappend="${repos.currentPage + 1 eq repos.totalPagesCount} ? 'disabled'">
+                    <a class="page-link"
+                       data-th-href="@{/search(query=${query},page=${repos.getCurrentPage() + 1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--    <nav aria-label="Pagination" th:if="${repos.totalPagesCount gt 0}">
+        <ul class="pagination justify-content-center font-weight-bold">
+            <li class="page-item" th:classappend="${repos.currentPage eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/search(query=${query},page=${repos.currentPage - 1})}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${i eq repos.currentPage} ? 'active'"
+                th:each="i : ${#numbers.sequence(
+                repos.currentPage + 9 > repos.totalCount? repos.totalPagesCount - 9 : repos.totalPagesCount,
+                repos.currentPage + 9 < repos.totalCount ? repos.totalPagesCount + 9 : repos.totalPagesCount,
+                1)}">
+                <a class="page-link" th:href="@{/search(query=${query},page=${i})}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+            <li class="page-item" th:classappend="${repos.currentPage  eq repos.totalPagesCount} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/search(query=${query},page=${repos.currentPage + 1})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>-->
+
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js'></script>
+<script>
+
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bookmarked repos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="alert alert-danger" role="alert" data-th-if="${errorMessage != null}">
+    <strong>Error:</strong>
+    <span data-th-text="${errorMessage}"></span>
+</div>
+
+<div class="container" data-th-if="${repositoryDetails != null}">
+    <div class="container p-3 my-3">
+        <div class="py-5 text-center">
+            <h2>Github Repository Bookmarks Page</h2>
+            <button type="button" id="btnSave" class="btn btn-primary">Save</button>
+            <a data-th-href="@{/bookmarks}" class="btn btn-success" role="button">Bookmarks</a>
+            <a data-th-href="@{/}" class="btn btn-success" role="button">Home</a>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Repository name</th>
+                <th scope="col">Repository description</th>
+                <th scope="col">Repository url</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr data-th-each="item: ${repositoryDetails}">
+                <td data-th-text="${item.gitRepository.getName()}"></td>
+                <td data-th-text="${item.gitRepository.getRepoDescription()}"></td>
+                <td data-th-text="${item.gitRepository.getUrl()}"></td>
+                <td>
+                    <a data-th-href="@{'/bookmarks/' + ${item.getId()}}" class="btn btn-success" role="button">Show</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js'></script>
+</body>
+</html>

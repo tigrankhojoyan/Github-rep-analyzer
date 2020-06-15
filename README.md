@@ -3,6 +3,7 @@
 ### Description
 Application intended to search/save repositories data of Github using Github API. 
 It also provides information concerning contributors, also concerning their impact/commits to the project 
+
 The saved data can be accessible via public api.
 
 ### Technologies

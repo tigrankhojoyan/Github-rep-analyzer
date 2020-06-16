@@ -13,7 +13,7 @@ The following technologies are used:
 Spring Boot, Thymeleaf, Bootstrap, MongoDB(embedded), Spring boot web, Swagger2
 
 ### Installation
-You may have Java 11 and maven installed on your machine to run this app.
+You should have Java 11 and maven installed on your machine to run this app.
 
 Steps:
 

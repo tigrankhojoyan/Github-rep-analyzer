@@ -1,7 +1,6 @@
 package com.git.repo.analyzer.services.impl;
 
 import com.git.repo.analyzer.model.*;
-import com.git.repo.analyzer.services.GithubRepositoryAnalyzerService;
 import com.git.repo.analyzer.services.GithubRepositoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)

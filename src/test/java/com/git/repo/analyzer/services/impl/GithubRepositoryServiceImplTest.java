@@ -6,10 +6,7 @@ import com.git.repo.analyzer.model.dto.GitRepositoryDTO;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -61,6 +58,7 @@ class GithubRepositoryServiceImplTest {
 
     @Test
     @Disabled
+    //Issue with matcher in order to match anonymous class
     public void retrieveContributorsOfRepositoryTest() {
         Contributor contributor1 = new Contributor("aa bb", "ua.com", 30, "vvv.uua");
         Contributor contributor2 = new Contributor("aab bbb", "uaa.com", 10, "vvv.uuaop");
@@ -71,7 +69,8 @@ class GithubRepositoryServiceImplTest {
                         HttpMethod.GET,
                         null,
 //                        eq(new ParameterizedTypeReference<List<Contributor>>() {}),
-                        isA(GithubRepositoryServiceImpl.ContributorParametrizedType.class),
+                        (ParameterizedTypeReference<List<Contributor>>)notNull(),
+//                        any(GithubRepositoryServiceImpl.ContributorParametrizedType.class),
                         "ownerId", "arepoa"))
                 .thenReturn(new ResponseEntity(contributors, HttpStatus.OK));
         List<Contributor> response = repositoryService.retrieveContributorsOfRepository("ownerId", "arepoa");
@@ -91,7 +90,7 @@ class GithubRepositoryServiceImplTest {
                         HttpMethod.GET,
                         null,
 //                        eq(new ParameterizedTypeReference<List<Contributor>>() {}),
-                        eq(GithubRepositoryServiceImpl.ContributorParametrizedType.class),
+                        (ParameterizedTypeReference<List<GitRepositoryCommit>>)notNull(),
                         "ownerId", "arepoa"))
                 .thenReturn(new ResponseEntity(commits, HttpStatus.OK));
         List<GitRepositoryCommit> response = repositoryService.retrieveRepositoryCommits("ownerId", "arepoa");

@@ -61,7 +61,8 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
     public List<Contributor> retrieveContributorsOfRepository(String ownerId, String repositoryName) {
         LOGGER.info("Get contributors of {} repository", repositoryName);
         ResponseEntity<List<Contributor>> repoContributors = restTemplate.exchange(contributorsPath, HttpMethod.GET, null,
-                new ContributorParametrizedType(), ownerId, repositoryName);
+                new ParameterizedTypeReference<List<Contributor>>() {
+                }, ownerId, repositoryName);
         return repoContributors.getBody();
     }
 
@@ -77,7 +78,4 @@ public class GithubRepositoryServiceImpl implements GithubRepositoryService {
         return repoCommits.getBody();
     }
 
-    public static class ContributorParametrizedType extends ParameterizedTypeReference<List<Contributor>> {
-
-    }
 }
